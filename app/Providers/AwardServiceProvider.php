@@ -39,9 +39,7 @@ class AwardServiceProvider extends ServiceProvider
             LessonsWatchedAchievement::class
         ]);
 
-        User::awardableGroup('badges', [
-            AchievementsBadge::class,
-        ]);
+        User::awardable(AchievementsBadge::class);
     }
 }
 

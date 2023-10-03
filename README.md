@@ -1,66 +1,107 @@
-# AwardsDemo \[TEST\]
+# Awards Demo
+
+An possible way of implementing achievement on Laravel.
+
+## Testing
+
+The tests are configured to use an in-memory database. To execute the tests run:
+
+```php
+php artisan test
+```
+
+## Start up
 
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Configure the database details on the `.env` file and execute the migrations using:
 
-## About Laravel
+```php
+php artisan migrate
+```
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Creating new awards
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+To create a new award (achievement, trophy, badge...) use this command, replacing `FooAchievement` for the ward class name:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+```php
+php artisan make award FooAchievement
+```
 
-## Learning Laravel
+This will create a new award on the `app/Awards/FooAchievement.php`.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+An award can be of different types, like an `achievement` or a `badge`. To set the type, use thje `$type` attribute:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+```php
+/** @var string The award type. */
+public $type = 'achievement';
+```
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+An award can have one or more tiers. Each tier si something which can be awarded, like an achievement. Tiers allow to define similar achievements on a single file:
 
-## Laravel Sponsors
+```php
+/** @var protected The award tiers. */
+protected array $tiers = [
+    'comment_written' => [
+        'score' => 1,
+        'title' => 'First Comment Written',
+    ],
+    '3_comments_written' => [
+        'score' => 3,
+        'title' => '3 Comments Written',
+    ],
+    '5_comments_written' => [
+        'score' => 5,
+        'title' => '5 Comments Written',
+    ],
+    '10_comments_written' => [
+        'score' => 10,
+        'title' => '10 Comments Written',
+    ],
+    '20_comments_written' => [
+        'score' => 20,
+        'title' => '20 Comments Written',
+    ],
+];
+```
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+Each tier has a `title`, which is the achievement/badge name and also a `score`,` whcih is the score needed to reward the users with the achievement/badge.
 
-### Premium Partners
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+Finally, the `score` method is the place to code the logic which retrieves the current award score for the `awardablep` user:
 
-## Contributing
+```php
+/**
+* Get the awardable score a user
+ *
+* @param $awardable;
+* @return int
+*/
+public function score($awardable = null): int
+{
+    if ($awardable == null && $this->hasRewards) {
+        $awardable = $this->hasRewards;
+    }
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    return $awardable->comments()->count();
+}
+```
 
-## Code of Conduct
+## Registering awards
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+The achievements should be registered with the User model or another model including the `HasRewards` trait using the `AwardProvider`:
 
-## Security Vulnerabilities
+```php
+User::awardable(AchievementsBadge::class);
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+Or grouped:
+
+```php
+User::awardableGroup('achievements', [
+    CommentsAchievement::class,
+    LessonsWatchedAchievement::class
+]);
+```
 
 ## License
 
