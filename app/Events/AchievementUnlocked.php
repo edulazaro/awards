@@ -22,11 +22,12 @@ class AchievementUnlocked
     /**
      * Create a new event instance.
      *
+     * @param Reward $reward
      * @return void
      */
-    public function __construct(Reward $award)
+    public function __construct(Reward $reward)
     {
-        $this->user = $award->awardable;
-        $this->achievement_name = $award->name;
+        $this->user = $reward->awardable;
+        $this->achievement_name = $reward->name;
     }
 }

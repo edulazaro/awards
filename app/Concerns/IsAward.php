@@ -16,18 +16,6 @@ use App\Contracts\AwardInterface;
  */
 trait IsAward
 {
-    /** @var string The award internal name. */
-    //public string $name;
-
-    /** @var string The award type. */
-    //public string $type;
-        
-    /** @var string The award title. */
-    //public string $title;
-
-    /** @var int The award score. */
-    //public string $score;
-
     /**
      * Constructor.
      */

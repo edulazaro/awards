@@ -7,7 +7,6 @@ use App\Collections\Awards;
 use App\Concerns\IsAward;
 use App\Concerns\HasRewards;
 use App\Contracts\AwardInterface;
-
 use App\Events\BadgeUnlocked;
 
 class AchievementsBadge implements AwardInterface
@@ -15,17 +14,18 @@ class AchievementsBadge implements AwardInterface
     use IsAward;
 
     /** @var string The award internal name. */
-    public $id = 'comment_written';
+    public string $id = 'comment_written';
 
     /** @var string The award type. */
-    public $type = 'badge';
+    public string $type = 'badge';
     
     /** @var string The award title. */
-    protected $title = 'Comment Written';
+    protected string $title = 'Comment Written';
 
-    protected $event = BadgeUnlocked::class;
+    /** @var string The success event. */
+    protected string $event = BadgeUnlocked::class;
 
-    /** @var protected The award tiers. */
+    /** @var array The award tiers. */
     protected array $tiers = [
         'beginner' => [
             'score' => 0,

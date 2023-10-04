@@ -8,7 +8,10 @@ use App\Awards\AchievementsBadge;
 class UserObserver
 {
     /**
-     * Handle the User "created" event.
+     * Handle the Reward "created" event.
+     * 
+     * @param User $user
+     * @return void
      */
     public function created(User $user): void
     {

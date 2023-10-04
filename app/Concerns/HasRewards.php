@@ -26,7 +26,7 @@ trait HasRewards
     /**
      * Register a new award for the awardable model
      * 
-     * @param string $awardable An awardable class.
+     * @param string $award An awardable class.
      * @return AwardInterface
      */
     public static function awardable(string $award)
@@ -38,24 +38,6 @@ trait HasRewards
         return self::$awardables->get($award);
     }
 
-    /*
-    public static function awardableGroup($name, $awardables)
-    {
-        !empty(self::$awardableGroups) || self::$awardableGroups = collect();
-
-        self::$awardableGroups->contains($name) || self::$awardableGroups->put($name, Awards::instance());
-
-        $awardableGroup = self::$awardableGroups->get($name);
-
-        foreach ($awardables as  $awardable) {
-            $awardableGroup->put($awardable, self::awardable($awardable));
-        }
-
-        return $awardableGroup;
-    }
-    */
-
-
     /**
      * Register a new award group for the awardable model
      * 
@@ -63,7 +45,7 @@ trait HasRewards
      * @param string[] $awardables The awards class names
      * @return Collection
      */
-    public static function awardableGroup($name, $awardablesArray)
+    public static function awardableGroup(string $name, array $awardablesArray)
     {
         !empty(self::$awardables) || self::$awardables = Awards::instance();
 

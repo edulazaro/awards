@@ -19,13 +19,21 @@ class Awards extends Collection
 {
     public static array $map;
     
-    public static function enforceMap($awardClassMap = [])
+    /**
+     * @param array $awardClassMap
+     * @return void
+     */
+    public static function enforceMap(array $awardClassMap = [])
     {
         foreach ($awardClassMap as $awardName => $awardClass) {
             self::$map[$awardName] = $awardClass;
         }
     }
 
+    /**
+     * Get a new ward colelction instance
+     * @return Awards
+     */
     public static function instance()
     {
         return app()->make(self::class);
@@ -47,6 +55,7 @@ class Awards extends Collection
         return new static($scopedItems);
     }
 
+    
     public function group($groupName)
     {
         $groups = $this->groupBy('group');

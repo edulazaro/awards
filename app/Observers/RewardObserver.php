@@ -8,6 +8,9 @@ class RewardObserver
 {
     /**
      * Handle the Reward "created" event.
+     * 
+     * @param Reward $reward
+     * @return void
      */
     public function created(Reward $reward): void
     {

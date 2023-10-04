@@ -7,7 +7,6 @@ use App\Collections\Awards;
 use App\Concerns\IsAward;
 use App\Concerns\HasRewards;
 use App\Contracts\AwardInterface;
-
 use App\Events\AchievementUnlocked;
 
 class CommentsAchievement implements AwardInterface
@@ -15,17 +14,18 @@ class CommentsAchievement implements AwardInterface
     use IsAward;
 
     /** @var string The award internal name. */
-    public $id = 'comments_written';
+    public string $id = 'comments_written';
     
     /** @var string The award type. */
-    public $type = 'achievement';
+    public string $type = 'achievement';
     
     /** @var string The award title. */
-    protected $title = 'Comment Written';
+    protected string $title = 'Comment Written';
 
-    protected $event = AchievementUnlocked::class;
+    /** @var string The success event. */
+    protected string $event = AchievementUnlocked::class;
 
-    /** @var protected The award tiers. */
+    /** @var array The award tiers. */
     protected array $tiers = [
         'comment_written' => [
             'score' => 1,

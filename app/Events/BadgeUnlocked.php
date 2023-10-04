@@ -22,6 +22,7 @@ class BadgeUnlocked
     /**
      * Create a new event instance.
      *
+     * @param Reward $reward
      * @return void
      */
     public function __construct(Reward $award)

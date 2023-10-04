@@ -57,15 +57,6 @@ class User extends Authenticatable
      *
      * @return HasManyThrough
      */
-    /*
-    public function watched(): HasManyThrough
-    {
-        return $this->hasManyThrough(
-            Lesson::class,
-            LessonUser::class,
-        )->where('watched', 1);
-    }
-    */
     public function watched(): BelongsToMany
     {
         return $this->belongsToMany(Lesson::class, 'lesson_user', 'user_id', 'lesson_id')->wherePivot('watched', 1);

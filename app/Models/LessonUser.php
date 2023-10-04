@@ -38,7 +38,7 @@ class LessonUser extends Model
     }
 
     /**
-     * Get user.-
+     * Get user.
      *
      * @return BelongsTo
      */

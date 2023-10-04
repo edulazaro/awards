@@ -7,7 +7,6 @@ use App\Collections\Awards;
 use App\Concerns\IsAward;
 use App\Concerns\HasRewards;
 use App\Contracts\AwardInterface;
-
 use App\Events\AchievementUnlocked;
 
 class LessonsWatchedAchievement implements AwardInterface
@@ -15,17 +14,18 @@ class LessonsWatchedAchievement implements AwardInterface
     use IsAward;
 
     /** @var string The award internal name. */
-    public $id = 'lesson_watched';
+    public string $id = 'lesson_watched';
     
     /** @var string The award type. */
-    public $type = 'achievement';
+    public string $type = 'achievement';
     
     /** @var string The award title. */
-    protected $title = 'Lesson Watched';
+    protected string $title = 'Lesson Watched';
 
-    protected $event = AchievementUnlocked::class;
+    /** @var string The success event. */
+    protected string $event = AchievementUnlocked::class;
 
-    /** @var protected The award tiers. */
+    /** @var array The award tiers. */
     protected array $tiers = [
         'lesson_watched' => [
             'score' => 1,

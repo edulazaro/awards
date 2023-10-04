@@ -14,14 +14,14 @@ interface AwardInterface
      * @param string $name
      * @param string $score
      * @param string $title
-     * @return int
+     * @return void
      */
     public function tier(string $name, string $score, string $title): void;
 
     /**
      * Method to configure the tiers.
      *
-     * @return int
+     * @return Collection
      */
     public function tiers(): Collection;
 

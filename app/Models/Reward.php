@@ -26,6 +26,7 @@ class Reward extends Model
         'name',
     ];
 
+    /** @var array Appended attributes */
     protected $appends = [
         'title',
         'next_tier_score'
